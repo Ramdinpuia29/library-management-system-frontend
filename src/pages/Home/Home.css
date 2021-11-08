@@ -1,0 +1,17 @@
+.home {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  position: relative;
+  background-image: url("https://i.pinimg.com/564x/58/19/1b/58191b1a0b1cceaff9b1f4407fb9934a.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 90vh;
+  width: 100vw;
+}
+
+.home a {
+  position: absolute;
+  bottom: 30%;
+}
