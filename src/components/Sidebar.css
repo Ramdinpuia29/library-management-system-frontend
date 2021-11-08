@@ -1,0 +1,42 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 20%;
+  color: white;
+  background-color: #212529;
+  height: 90vh;
+  margin-top: 7px;
+  border-radius: 0 10px 10px 0;
+}
+
+.sidebar a {
+  margin-top: 10px;
+}
+
+.sidebar svg {
+  margin-right: 10px;
+}
+
+@media screen and (max-width: 767px) {
+  .sidebar {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sidebar .nav-link {
+      
+  }
+
+  .sidebar svg {
+    margin-right: 0;
+  }
+}
+
+.sidebar-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
