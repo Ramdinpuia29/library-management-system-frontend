@@ -1,0 +1,13 @@
+.profileWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.profileWrapper .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
