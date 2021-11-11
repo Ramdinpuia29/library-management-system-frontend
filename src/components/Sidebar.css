@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 20%;
+  flex: 0.15;
+  min-width: 15%;
   color: white;
   background-color: #212529;
   height: 90vh;
@@ -20,14 +21,11 @@
 
 @media screen and (max-width: 767px) {
   .sidebar {
-    width: 15%;
+    /* width: 15%; */
     display: flex;
+    flex: 0.1;
     flex-direction: column;
     align-items: center;
-  }
-
-  .sidebar .nav-link {
-      
   }
 
   .sidebar svg {
@@ -37,6 +35,7 @@
 
 .sidebar-bottom {
   display: flex;
+
   justify-content: center;
   align-items: center;
 }

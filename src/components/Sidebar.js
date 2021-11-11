@@ -8,8 +8,11 @@ import useWindowSize from "../assets/useWindowSize";
 
 import "./Sidebar.css";
 
+const isAuth = localStorage.getItem("user-info");
+
 const Sidebar = () => {
   const size = useWindowSize();
+
   return (
     <div className="sidebar">
       <div>
@@ -31,33 +34,55 @@ const Sidebar = () => {
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link
-              as={Link}
-              eventKey="/dashboard/staffs"
-              to="/dashboard/staffs"
-            >
-              <MdOutlineSupervisedUserCircle size={24} />
-              {size.width > 767 ? "Staffs" : ""}
-            </Nav.Link>
+            {isAuth ? (
+              <Nav.Link
+                as={Link}
+                eventKey="/dashboard/staffs"
+                to="/dashboard/staffs"
+              >
+                <MdOutlineSupervisedUserCircle size={24} />
+                {size.width > 767 ? "Staffs" : ""}
+              </Nav.Link>
+            ) : (
+              ""
+            )}
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link
-              as={Link}
-              eventKey="/dashboard/action-history"
-              to="/dashboard/action-history"
-            >
-              <MdHistory size={24} />
-              {size.width > 767 ? "Action History" : ""}
-            </Nav.Link>
+            {isAuth && JSON.parse(isAuth).role === "admin" ? (
+              <Nav.Link
+                as={Link}
+                eventKey="/dashboard/action-history"
+                to="/dashboard/action-history"
+              >
+                <MdHistory size={24} />
+                {size.width > 767 ? "Action History" : ""}
+              </Nav.Link>
+            ) : (
+              ""
+            )}
           </Nav.Item>
         </Nav>
       </div>
       <div className="sidebar-bottom">
         <Nav>
           <Nav.Item>
-            <Nav.Link>
+            <Nav.Link href="../profile/">
               <FaUserCircle size={24} />
-              Welcome, Guest
+              {size.width > 767
+                ? `Welcome, ${
+                    isAuth && JSON.parse(isAuth).role === "admin"
+                      ? "Admin"
+                      : isAuth && JSON.parse(isAuth).role === "staff"
+                      ? `${JSON.parse(isAuth).username}`
+                      : "Guest"
+                  }`
+                : `${
+                    isAuth && JSON.parse(isAuth).role === "admin"
+                      ? "Admin"
+                      : isAuth && JSON.parse(isAuth).role === "staff"
+                      ? `${JSON.parse(isAuth).username}`
+                      : "Guest"
+                  }`}
             </Nav.Link>
           </Nav.Item>
         </Nav>
