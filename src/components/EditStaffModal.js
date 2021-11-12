@@ -1,10 +1,11 @@
 import { useState } from "react";
-import axios from "axios";
+
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import axios from "axios";
 
-const AddStaffModal = (props) => {
+const EditStaffModal = (props) => {
   const [values, setValues] = useState({
     username: "",
     email: "",
@@ -25,28 +26,39 @@ const AddStaffModal = (props) => {
     });
   };
 
-  const onAddStaff = async () => {
+  const onEditStaff = async () => {
     props.onHide();
+    console.log(props.row);
     const { username, email, department, experience } = values;
-    const staff = { username, email, department, experience };
+    const user_id = props.row.userId;
+    const staff = { user_id, username, email, department, experience };
     await axios.post(
-      "http://localhost:8081/LibraryManagementSystem/insertstaff",
+      "http://localhost:8081/LibraryManagementSystem/updatestaff",
       staff
     );
     clearInputs();
   };
 
   return (
-    <Form onSubmit={onAddStaff}>
+    <Form onSubmit={onEditStaff}>
       <Modal
         {...props}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        onEnter={() => {
+          setValues({
+            ...values,
+            username: props.row.username,
+            email: props.row.email,
+            department: props.row.department,
+            experience: props.row.experience,
+          });
+        }}
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            ADD STAFF
+            EDIT STAFF
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -91,8 +103,8 @@ const AddStaffModal = (props) => {
           <Button variant="danger" onClick={props.onHide}>
             Cancel
           </Button>
-          <Button variant="success" type="submit" onClick={onAddStaff}>
-            Add Staff
+          <Button variant="success" type="submit" onClick={onEditStaff}>
+            Confirm
           </Button>
         </Modal.Footer>
       </Modal>
@@ -100,4 +112,4 @@ const AddStaffModal = (props) => {
   );
 };
 
-export default AddStaffModal;
+export default EditStaffModal;

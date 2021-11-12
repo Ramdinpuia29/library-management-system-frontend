@@ -14,13 +14,13 @@ const Navigation = () => {
   const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem("user-info")) {
+    if (sessionStorage.getItem("user-info")) {
       setIsAuth(true);
     }
   }, []);
 
   const handleLogout = () => {
-    localStorage.clear();
+    sessionStorage.clear();
     setIsAuth(false);
     navigate("/login");
   };
