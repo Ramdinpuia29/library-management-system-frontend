@@ -7,8 +7,10 @@ import ActionHistory from "../../components/ActionHistory";
 
 const Dashboard = () => {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <Sidebar />
+    <div style={{ display: "flex" }}>
+      <div>
+        <Sidebar />
+      </div>
       <div
         style={{
           display: "flex",

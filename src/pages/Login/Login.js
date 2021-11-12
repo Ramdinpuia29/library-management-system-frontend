@@ -4,39 +4,65 @@ import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
 
 // import AuthService from "../../Auth/AuthService";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setpassword] = useState("");
+  const [values, setValues] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleChange = (name) => (e) => {
+    setValues({
+      ...values,
+      [name]: e.target.value,
+    });
+  };
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("user-info")) {
+    if (sessionStorage.getItem("user-info")) {
       navigate("/dashboard/books");
     }
   }, [navigate]);
 
-  async function loginUser(credentials) {
-    return fetch("http://localhost:8081/LibraryManagementSystem/Login1", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(credentials),
-    }).then((data) => data.json());
-  }
+  // async function loginUser(values) {
+  //   return fetch("http://localhost:8081/LibraryManagementSystem/Login1", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(values),
+  //   }).then(async (response) => {
+  //     if (!response.ok) {
+  //       const error = response.status;
+  //       return Promise.reject(error);
+  //     }
+  //     sessionStorage.setItem("user-info", JSON.stringify(response));
+  //     Object.keys(response).map((k) => sessionStorage.setItem(k, response[k]));
+  //     navigate("/dashboard/books");
+  //   });
+  // }
 
   const handleLogin = async (e) => {
     // e.preventDefault();
-    const result = await loginUser({
-      username,
-      password,
-    });
-    localStorage.setItem("user-info", JSON.stringify(result));
-    navigate("/dashboard/books");
+    const response = await axios.post(
+      "http://localhost:8081/LibraryManagementSystem/Login1",
+      values
+    );
+    console.log(`response`, response.data.response_code);
+    if (response.data.response_code === 200) {
+      sessionStorage.setItem("user-info", JSON.stringify(response.data));
+      Object.keys(response.data).map((k) =>
+        sessionStorage.setItem(k, response.data[k])
+      );
+      navigate("/dashboard/books");
+    } else {
+      alert("Wrong Credentials");
+    }
   };
 
   return (
@@ -59,8 +85,8 @@ const Login = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={values.username}
+                onChange={handleChange("username")}
               ></Form.Control>
             </Form.Group>
             <Form.Group>
@@ -68,13 +94,13 @@ const Login = () => {
               <Form.Control
                 type="password"
                 placeholder="Enter password"
-                value={password}
-                onChange={(e) => setpassword(e.target.value)}
+                value={values.password}
+                onChange={handleChange("password")}
               ></Form.Control>
             </Form.Group>
           </Card.Body>
           <Card.Footer className="text-center">
-            <Button variant="dark" type="submit">
+            <Button variant="dark" type="submit" onClick={handleLogin}>
               Login
             </Button>
           </Card.Footer>

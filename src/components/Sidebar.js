@@ -8,7 +8,7 @@ import useWindowSize from "../assets/useWindowSize";
 
 import "./Sidebar.css";
 
-const isAuth = localStorage.getItem("user-info");
+const isAuth = sessionStorage.getItem("user-info");
 
 const Sidebar = () => {
   const size = useWindowSize();
